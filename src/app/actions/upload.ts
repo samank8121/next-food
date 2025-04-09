@@ -27,10 +27,8 @@ export async function uploadFilesToR2(formData: FormData) {
       const bytes = await file.arrayBuffer()
       const buffer = Buffer.from(bytes)
 
-      // Generate a unique file name to avoid collisions
       const fileName = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`
 
-      // Upload to R2
       await s3Client.send(
         new PutObjectCommand({
           Bucket: process.env.R2_BUCKET_NAME,
@@ -40,7 +38,6 @@ export async function uploadFilesToR2(formData: FormData) {
         }),
       )
 
-      // Return the URL to the uploaded file
       return `${process.env.R2_PUBLIC_URL}/${fileName}`
     })
 

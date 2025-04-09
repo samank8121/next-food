@@ -13,7 +13,7 @@ interface FileUploaderProps {
 
 export default function FileUploader({
   multiple = false,
-  maxSize = 10, // Default 10MB
+  maxSize = 5, // Default 5MB
   acceptedTypes = ["*/*"],
   onUpload,
 }: FileUploaderProps) {

@@ -9,6 +9,7 @@ interface FileUploaderProps {
   maxSize?: number // in MB
   acceptedTypes?: string[]
   onUpload: (formData: FormData) => Promise<{ success: boolean; message: string; urls?: string[] }>
+  onSuccess?: (urls: string[]) => void
 }
 
 export default function FileUploader({
@@ -16,6 +17,7 @@ export default function FileUploader({
   maxSize = 5, // Default 5MB
   acceptedTypes = ["*/*"],
   onUpload,
+  onSuccess,
 }: FileUploaderProps) {
   const [files, setFiles] = useState<File[]>([])
   const [isDragging, setIsDragging] = useState(false)
@@ -126,6 +128,9 @@ export default function FileUploader({
       })
 
       if (result.success) {
+        if(onSuccess) {
+          onSuccess(result.urls || []);
+        }
         setFiles([])
       }
     } catch {

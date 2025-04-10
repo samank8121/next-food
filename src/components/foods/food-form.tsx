@@ -31,6 +31,8 @@ import {
 import { toast } from 'sonner';
 import { createFood, updateFood } from '@/app/actions/food';
 import { FoodSchema, FoodSchemaType } from '@/lib/zod/schema/food';
+import FileUploader from '../file-uploader';
+import { uploadFilesToR2 } from '@/app/actions/upload';
 
 interface FoodFormProps {
   food?: Food;
@@ -180,10 +182,22 @@ export function FoodForm({ food }: FoodFormProps) {
               <FormItem>
                 <FormLabel>Image URL</FormLabel>
                 <FormControl>
-                  <Input
+                  {/* <Input
                     placeholder='Enter image URL (optional)'
                     {...field}
                     value={field.value || ''}
+                  /> */}
+                  <FileUploader
+                    multiple={false}
+                    maxSize={10}
+                    acceptedTypes={['*/*']}
+                    onUpload={uploadFilesToR2}
+                    onSuccess={(urls) => {
+                      field.onChange(urls[0]);
+                      toast('Image uploaded', {
+                        description: 'Your image has been uploaded successfully.',
+                      });
+                    }}  
                   />
                 </FormControl>
                 <FormDescription>

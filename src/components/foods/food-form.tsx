@@ -72,7 +72,6 @@ export function FoodForm({ food }: FoodFormProps) {
     try {
       if (food) {
         await updateFood(food.id, {
-          ...food,
           ...values,
         });
         toast('Food updated', {
@@ -182,11 +181,6 @@ export function FoodForm({ food }: FoodFormProps) {
               <FormItem>
                 <FormLabel>Image URL</FormLabel>
                 <FormControl>
-                  {/* <Input
-                    placeholder='Enter image URL (optional)'
-                    {...field}
-                    value={field.value || ''}
-                  /> */}
                   <FileUploader
                     multiple={false}
                     maxSize={10}
@@ -195,9 +189,10 @@ export function FoodForm({ food }: FoodFormProps) {
                     onSuccess={(urls) => {
                       field.onChange(urls[0]);
                       toast('Image uploaded', {
-                        description: 'Your image has been uploaded successfully.',
+                        description:
+                          'Your image has been uploaded successfully.',
                       });
-                    }}  
+                    }}
                   />
                 </FormControl>
                 <FormDescription>

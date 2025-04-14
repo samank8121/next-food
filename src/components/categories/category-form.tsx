@@ -45,7 +45,6 @@ export function CategoryForm({ category }: CategoryFormProps) {
     try {
       if (category) {
         await updateCategory(category.id, {
-          ...category,
           ...values,
         });
         toast('Category updated', {

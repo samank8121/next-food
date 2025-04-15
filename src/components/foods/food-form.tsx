@@ -41,6 +41,7 @@ interface FoodFormProps {
 export function FoodForm({ food }: FoodFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingUpload, setIsLoadingUpload] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -187,12 +188,15 @@ export function FoodForm({ food }: FoodFormProps) {
                     acceptedTypes={['*/*']}
                     onUpload={uploadFilesToR2}
                     onSuccess={(urls) => {
+                      setIsLoadingUpload(false); // Reset upload loading state after success
                       field.onChange(urls[0]);
                       toast('Image uploaded', {
                         description:
                           'Your image has been uploaded successfully.',
                       });
                     }}
+                    onStart={() => setIsLoadingUpload(true)} // Set loading state when upload starts
+                    showUploadButton={false}
                   />
                 </FormControl>
                 <FormDescription>
@@ -230,7 +234,7 @@ export function FoodForm({ food }: FoodFormProps) {
             >
               Cancel
             </Button>
-            <Button type='submit' disabled={isLoading}>
+            <Button type='submit' disabled={isLoading || isLoadingUpload}>
               {isLoading ? 'Saving...' : food ? 'Update Food' : 'Create Food'}
             </Button>
           </div>

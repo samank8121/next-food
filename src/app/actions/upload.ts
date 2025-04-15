@@ -35,6 +35,9 @@ export async function uploadFilesToR2(formData: FormData) {
           Key: fileName,
           Body: buffer,
           ContentType: file.type,
+          Metadata: {
+            'Cache-Control': 'public, max-age=31536000',
+          },
         })
       );
 

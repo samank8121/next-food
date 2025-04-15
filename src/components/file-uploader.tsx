@@ -18,6 +18,8 @@ interface FileUploaderProps {
     formData: FormData
   ) => Promise<{ success: boolean; message: string; urls?: string[] }>;
   onSuccess?: (urls: string[]) => void;
+  showUploadButton?: boolean;
+  onStart?: () => void;
 }
 
 export default function FileUploader({
@@ -26,6 +28,8 @@ export default function FileUploader({
   acceptedTypes = ['*/*'],
   onUpload,
   onSuccess,
+  showUploadButton = false,
+  onStart,
 }: FileUploaderProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -44,7 +48,7 @@ export default function FileUploader({
     }
   };
 
-  const validateAndSetFiles = (fileList: File[]) => {
+  const validateAndSetFiles = async (fileList: File[]) => {
     const validFiles = fileList.filter((file) => {
       // Check file size
       if (file.size > maxSize * 1024 * 1024) {
@@ -83,6 +87,10 @@ export default function FileUploader({
     } else {
       setFiles(validFiles.slice(0, 1));
     }
+
+    if (!showUploadButton) {
+      await handleUpload(validFiles); // Automatically upload files
+    }
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -95,13 +103,13 @@ export default function FileUploader({
     setIsDragging(false);
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
 
     if (e.dataTransfer.files) {
       const fileList = Array.from(e.dataTransfer.files);
-      validateAndSetFiles(fileList);
+      await validateAndSetFiles(fileList);
     }
   };
 
@@ -109,8 +117,12 @@ export default function FileUploader({
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleUpload = async () => {
-    if (files.length === 0) {
+  const handleUpload = async (filesToUpload: File[] = files) => {
+    if (onStart) {
+      onStart();
+    }
+
+    if (filesToUpload.length === 0) {
       setUploadStatus({
         success: false,
         message: 'Please select at least one file to upload',
@@ -123,7 +135,7 @@ export default function FileUploader({
 
     try {
       const formData = new FormData();
-      files.forEach((file) => {
+      filesToUpload.forEach((file) => {
         formData.append('files', file);
       });
 
@@ -255,20 +267,22 @@ export default function FileUploader({
         </div>
       )}
 
-      <button
-        type='button'
-        onClick={handleUpload}
-        disabled={isUploading || files.length === 0}
-        className={cn(
-          'w-full py-2 px-4 rounded-md font-medium transition-colors',
-          'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary',
-          isUploading || files.length === 0
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'bg-primary text-white hover:bg-primary/90'
-        )}
-      >
-        {isUploading ? 'Uploading...' : 'Upload Files'}
-      </button>
+      {showUploadButton && (
+        <button
+          type='button'
+          onClick={() => handleUpload()}
+          disabled={isUploading || files.length === 0}
+          className={cn(
+            'w-full py-2 px-4 rounded-md font-medium transition-colors',
+            'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary',
+            isUploading || files.length === 0
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-primary text-white hover:bg-primary/90'
+          )}
+        >
+          {isUploading ? 'Uploading...' : 'Upload Files'}
+        </button>
+      )}
     </div>
   );
 }

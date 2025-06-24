@@ -16,15 +16,17 @@ import { DeleteCategoryButton } from '@/components/categories/delete-category-bu
 import { getCategoryById } from '@/app/actions/category';
 
 interface CategoryDetailPageProps {
-  params: {
-    id: string;
-  };
+   params: Promise<{ id: string }>
 }
 
 export default async function CategoryDetailPage({
   params,
 }: CategoryDetailPageProps) {
-  const category = await getCategoryById(params.id);
+  const { id } = await params;
+  if (!id || isNaN(Number(id))) {
+    notFound();
+  }
+  const category = await getCategoryById(id);
 
   if (!category) {
     notFound();

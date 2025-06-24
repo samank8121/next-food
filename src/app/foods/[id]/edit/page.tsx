@@ -4,9 +4,7 @@ import { FoodForm } from '@/components/foods/food-form';
 import { getFoodById } from '@/app/actions/food';
 
 interface EditFoodPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export const metadata = {
@@ -15,7 +13,11 @@ export const metadata = {
 };
 
 export default async function EditFoodPage({ params }: EditFoodPageProps) {
-  const food = await getFoodById(params.id);
+  const { id } = await params;
+  if (!id || isNaN(Number(id))) {
+    notFound();
+  }
+  const food = await getFoodById(id);
 
   if (!food) {
     notFound();

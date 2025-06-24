@@ -16,13 +16,15 @@ import { getFoodById } from '@/app/actions/food';
 import { DeleteFoodButton } from '@/components/foods/delete-food-button';
 
 interface FoodDetailPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export default async function FoodDetailPage({ params }: FoodDetailPageProps) {
-  const food = await getFoodById(params.id);
+  const { id } = await params;
+  if (!id || isNaN(Number(id))) {
+    notFound();
+  }
+  const food = await getFoodById(id);
 
   if (!food) {
     notFound();

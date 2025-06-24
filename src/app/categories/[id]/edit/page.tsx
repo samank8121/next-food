@@ -3,9 +3,7 @@ import { CategoryForm } from '@/components/categories/category-form';
 import { getCategoryById } from '@/app/actions/category';
 
 interface EditCategoryPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>
 }
 
 export const metadata = {
@@ -16,7 +14,11 @@ export const metadata = {
 export default async function EditCategoryPage({
   params,
 }: EditCategoryPageProps) {
-  const category = await getCategoryById(params.id);
+  const { id } = await params;
+  if (!id || isNaN(Number(id))) {
+    notFound()
+  }
+  const category = await getCategoryById(id)
 
   if (!category) {
     notFound();

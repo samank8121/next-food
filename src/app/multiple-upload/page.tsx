@@ -1,5 +1,5 @@
 import FileUploader from '@/components/file-uploader';
-import { uploadFilesToR2 } from '../actions/upload';
+import { uploadFiles } from '../actions/upload';
 
 export default function MultipleUpload() {
   return (
@@ -13,7 +13,7 @@ export default function MultipleUpload() {
             multiple={true}
             maxSize={5}
             acceptedTypes={['image/*', 'application/pdf']}
-            onUpload={uploadFilesToR2}
+            onUpload={uploadFiles}
           />
         </div>
       </div>

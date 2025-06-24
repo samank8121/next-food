@@ -32,7 +32,7 @@ import { toast } from 'sonner';
 import { createFood, updateFood } from '@/app/actions/food';
 import { FoodSchema, FoodSchemaType } from '@/lib/zod/schema/food';
 import FileUploader from '../file-uploader';
-import { uploadFilesToR2 } from '@/app/actions/upload';
+import { uploadFiles } from '@/app/actions/upload';
 
 interface FoodFormProps {
   food?: Food;
@@ -185,8 +185,8 @@ export function FoodForm({ food }: FoodFormProps) {
                   <FileUploader
                     multiple={false}
                     maxSize={10}
-                    acceptedTypes={['*/*']}
-                    onUpload={uploadFilesToR2}
+                    acceptedTypes={['image/jpeg', 'image/png', 'image/webp']}
+                    onUpload={uploadFiles}
                     onSuccess={(urls) => {
                       setIsLoadingUpload(false); // Reset upload loading state after success
                       field.onChange(urls[0]);

@@ -15,7 +15,8 @@ interface FileUploaderProps {
   maxSize?: number; // in MB
   acceptedTypes?: string[];
   onUpload: (
-    formData: FormData
+    formData: FormData,
+    provider: string
   ) => Promise<{ success: boolean; message: string; urls?: string[] }>;
   onSuccess?: (urls: string[]) => void;
   showUploadButton?: boolean;
@@ -139,7 +140,7 @@ export default function FileUploader({
         formData.append('files', file);
       });
 
-      const result = await onUpload(formData);
+      const result = await onUpload(formData, 'vercel');
 
       setUploadStatus({
         success: result.success,

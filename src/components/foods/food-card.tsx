@@ -48,7 +48,7 @@ export function FoodCard({ food }: FoodCardProps) {
                 imageLoading ? 'opacity-0' : 'opacity-100'
               }`}
               unoptimized
-              onLoadingComplete={() => setImageLoading(false)}
+              onLoad={() => setImageLoading(false)}
               onError={() => {
                 setImageError(true);
                 setImageLoading(false);
@@ -56,13 +56,6 @@ export function FoodCard({ food }: FoodCardProps) {
               sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
               priority={false}
             />
-            // <img
-            //   src={food.image_url || '/coming-soon.jpg'}
-            //   alt={food.name}
-            //   className='absolute inset-0 h-full w-full object-cover'
-            //   onLoad={() => setImageLoading(false)}
-            //   onError={() => setImageError(true)}
-            // />
           }
         </div>
       </CardHeader>

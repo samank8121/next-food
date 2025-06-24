@@ -14,7 +14,7 @@ export const metadata = {
 
 export default async function EditFoodPage({ params }: EditFoodPageProps) {
   const { id } = await params;
-  if (!id || isNaN(Number(id))) {
+  if (!id) {
     notFound();
   }
   const food = await getFoodById(id);

@@ -21,7 +21,7 @@ interface FoodDetailPageProps {
 
 export default async function FoodDetailPage({ params }: FoodDetailPageProps) {
   const { id } = await params;
-  if (!id || isNaN(Number(id))) {
+  if (!id) {
     notFound();
   }
   const food = await getFoodById(id);

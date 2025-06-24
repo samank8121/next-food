@@ -10,10 +10,8 @@ import {
 import { eq } from 'drizzle-orm';
 
 export async function getAllFoods() {
-  return await db.query.foods.findMany({
-    with: {
-      category: true,
-    },
+  return await db.select().from(foods).$withCache({
+    tag: 'foods',
   });
 }
 

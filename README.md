@@ -1,5 +1,5 @@
 ## Description
-Food project with next.js, shadcn, tailwind, zod, drizzle, cloudflare r2
+Food project with next.js, shadcn, tailwind, zod, drizzle, vercel blob, cloudflare r2
 
 
 ```bash

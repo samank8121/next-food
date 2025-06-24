@@ -1,5 +1,5 @@
 import FileUploader from '@/components/file-uploader';
-import { uploadFilesToR2 } from '@/app/actions/upload';
+import { uploadFiles } from '@/app/actions/upload';
 
 export default function SingleUploadPage() {
   return (
@@ -13,7 +13,7 @@ export default function SingleUploadPage() {
             multiple={false}
             maxSize={10}
             acceptedTypes={['*/*']}
-            onUpload={uploadFilesToR2}
+            onUpload={uploadFiles}
           />
         </div>
       </div>

@@ -23,7 +23,7 @@ export default async function CategoryDetailPage({
   params,
 }: CategoryDetailPageProps) {
   const { id } = await params;
-  if (!id || isNaN(Number(id))) {
+  if (!id) {
     notFound();
   }
   const category = await getCategoryById(id);

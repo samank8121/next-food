@@ -1,8 +1,8 @@
 'use server';
 
-import { r2Uploader } from './uploaders/r2-uploader';
-import { vercelUploader } from './uploaders/vercel-uploader';
-import type { FileUploader } from './uploaders/uploader';
+import { r2Uploader } from './upload/r2-uploader';
+import { vercelUploader } from './upload/vercel-uploader';
+import type { FileUploader } from './upload/uploader';
 
 const strategies: Record<string, FileUploader> = {
   r2: r2Uploader,

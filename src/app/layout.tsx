@@ -25,19 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navigation />
-          <div className='container mx-auto py-10 px-4'>{children}</div>
-        </ThemeProvider>
+        <div className='relative flex min-h-screen items-center w-full flex-col overflow-hidden'>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navigation />
+            <div className='container mx-auto py-10 px-4'>{children}</div>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );

@@ -7,11 +7,18 @@ import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn, toTitleCase } from '@/lib/utils';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from './ui/navigation-menu';
 
 const navigation = [
-  { name: "home", href: '/' },
-  { name: "food", href: '/foods' },
-  { name: "category", href: '/categories' },
+  { name: 'home', href: '/' },
+  { name: 'food', href: '/foods' },
+  { name: 'category', href: '/categories' },
 ];
 
 const Navigation = () => {
@@ -19,46 +26,37 @@ const Navigation = () => {
   const pathname = usePathname();
 
   return (
-    <header className='container fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-      <nav className='container flex h-16 items-center justify-between px-4 md:px-6'>
-        
-        {/* Desktop Navigation */}
-        <div className='hidden md:flex md:items-center md:space-x-8'>
+    <header className='container flex-col md:flex md:flex-row m-auto fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+      <NavigationMenu className='hidden max-w-none h-16 px-4 md:px-6 md:flex md:justify-start'>
+        <NavigationMenuList className='flex'>
           {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                pathname === item.href
-                  ? 'text-foreground'
-                  : 'text-muted-foreground'
-              )}
-            >
-              {toTitleCase(item.name)}
-            </Link>
+            <NavigationMenuItem key={item.name}>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link href={item.href}>{toTitleCase(item.name)}</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           ))}
-        </div>
-
-        <div className='flex items-center space-x-4'>
-          <ThemeToggle />
-
-          {/* Mobile menu button */}
-          <Button
-            variant='ghost'
-            size='sm'
-            className='md:hidden'
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className='h-5 w-5' />
-            ) : (
-              <Menu className='h-5 w-5' />
-            )}
-            <span className='sr-only'>Toggle menu</span>
-          </Button>
-        </div>
-      </nav>
+        </NavigationMenuList>
+      </NavigationMenu>
+      <div className='flex items-center space-x-4 w-full md:w-1/2 justify-between md:justify-end'>
+        <Button
+          variant='ghost'
+          size='sm'
+          className='md:hidden'
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? (
+            <X className='h-5 w-5' />
+          ) : (
+            <Menu className='h-5 w-5' />
+          )}
+          <span className='sr-only'>Toggle menu</span>
+        </Button>
+        <ThemeToggle />
+      </div>
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (

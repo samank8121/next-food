@@ -1,8 +1,8 @@
 - put on neon -> done
 - put images on blob store -> done
-- change style of pages
-- add navigation
-- work with drizzle upwork
+- change style of pages -> done
+- add navigation -> done
+- work with drizzle upwork-> done
 - put on vercel -> done
 - add hono to that
 

@@ -100,7 +100,7 @@ export function FoodForm({ food }: FoodFormProps) {
   const imageUrl = form.watch('image_url');
 
   return (
-    <Card className='max-w-2xl mx-auto p-6'>
+    <Card className='p-6'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <FormField
@@ -210,7 +210,7 @@ export function FoodForm({ food }: FoodFormProps) {
           {imageUrl && (
             <div className='border rounded-md p-2'>
               <p className='text-sm font-medium mb-2'>Image Preview</p>
-              <div className='relative aspect-video w-full overflow-hidden rounded-md'>
+              <div className='relative aspect-video w-full lg:w-1/2 lg:mx-auto xl:w-1/3 overflow-hidden rounded-md'>
                 <Image
                   src={imageUrl || '/placeholder.svg'}
                   alt='Preview'

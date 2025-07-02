@@ -17,6 +17,8 @@ import { Input } from '@/components/ui/input';
 import { login } from '@/app/actions/auth';
 import { LoginSchema } from '@/lib/zod/schema/auth';
 
+import { googleSignIn, githubSignIn } from '@/app/actions/auth';
+
 export function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -62,8 +64,16 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Login</Button>
+        <Button type='submit' className='w-full mb-2'>Login</Button>
       </form>
+      <div className='space-y-2 flex w-full gap-2'>
+        <Button onClick={() => googleSignIn()} className='flex-1' >
+          Sign in with Google
+        </Button>
+        <Button onClick={() => githubSignIn()} className='flex-1' >
+          Sign in with GitHub
+        </Button>
+      </div>
     </Form>
   );
 }

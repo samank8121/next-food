@@ -31,9 +31,9 @@ const Navigation = () => {
 
   useEffect(() => {
     const supabase = createClient();
-    const getUser = async () => {
-
+    const getUser = async () => {      
       const { data } = await supabase.auth.getUser();
+      console.log('User data:', data);
       setUser(data.user);
     };
     getUser();

@@ -5,4 +5,5 @@
 - work with drizzle upwork-> done
 - put on vercel -> done
 - add hono to that
+- add authentication
 

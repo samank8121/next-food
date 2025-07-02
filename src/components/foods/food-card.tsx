@@ -22,9 +22,11 @@ interface FoodCardProps {
     description: string | null;
     image_url: string | null;
   };
+  showEdit?: boolean;
+  showDelete?: boolean;
 }
 
-export function FoodCard({ food }: FoodCardProps) {
+export function FoodCard({ food, showEdit = true, showDelete = true }: FoodCardProps) {
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const placeholderImage = '/coming-soon.jpg';
@@ -74,12 +76,14 @@ export function FoodCard({ food }: FoodCardProps) {
         )}
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <Button variant='outline' size='sm' asChild>
-          <Link href={`/foods/${food.id}/edit`}>
-            <Edit className='h-4 w-4 mr-2' /> Edit
-          </Link>
-        </Button>
-        <DeleteFoodButton id={food.id} />
+        {showEdit && (
+          <Button variant='outline' size='sm' asChild>
+            <Link href={`/foods/${food.id}/edit`}>
+              <Edit className='h-4 w-4 mr-2' /> Edit
+            </Link>
+          </Button>
+        )}
+        {showDelete && <DeleteFoodButton id={food.id} />}
       </CardFooter>
     </Card>
   );

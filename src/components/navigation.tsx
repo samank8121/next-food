@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -14,6 +15,8 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from './ui/navigation-menu';
+import { createClient } from '@/lib/supabase/client';
+import { logout } from '@/app/actions/auth';
 
 const navigation = [
   { name: 'home', href: '/' },
@@ -24,6 +27,17 @@ const navigation = [
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const getUser = async () => {
+
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    getUser();
+  }, [pathname]);
 
   return (
     <header className='container flex-col md:flex md:flex-row m-auto fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
@@ -56,6 +70,22 @@ const Navigation = () => {
           <span className='sr-only'>Toggle menu</span>
         </Button>
         <ThemeToggle />
+        {user ? (
+          <form action={logout}>
+            <Button variant='ghost' size='sm'>
+              Logout
+            </Button>
+          </form>
+        ) : (
+          <div className='flex items-center space-x-2'>
+            <Button variant='ghost' size='sm' asChild>
+              <Link href='/login'>Login</Link>
+            </Button>
+            <Button variant='ghost' size='sm' asChild>
+              <Link href='/signup'>Sign Up</Link>
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Mobile Navigation */}

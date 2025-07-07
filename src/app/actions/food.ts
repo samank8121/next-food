@@ -33,9 +33,7 @@ export async function getAllFoods() {
       id: foods.id,
       image_url: foods.image_url,
     })
-    .from(foods).$withCache({
-      tag: 'foods',
-    });
+    .from(foods);
 }
 
 export async function getFoodById(id: string) {

@@ -9,10 +9,33 @@ import {
 } from '@/lib/zod/schema/food';
 import { eq } from 'drizzle-orm';
 
-export async function getAllFoods() {
-  return await db.select().from(foods).$withCache({
-    tag: 'foods',
-  });
+
+
+// function selectWithout<T extends Record<string, any>>(
+//   table: T,
+//   exclude: Array<keyof T>
+// ) {
+//   return Object.fromEntries(
+//     Object.entries(table).filter(([key]) => !exclude.includes(key as keyof T))
+//   );
+// }
+// export async function getAllFoods() {
+//   const fields = selectWithout(foods, ['created_at', 'updated_at']);
+//   return await db
+//     .select(fields)
+//     .from(foods);  
+// }
+export async function getAllFoods() {  
+  return await db
+    .select({
+      name: foods.name,
+      description: foods.description,
+      id: foods.id,
+      image_url: foods.image_url,
+    })
+    .from(foods).$withCache({
+      tag: 'foods',
+    });
 }
 
 export async function getFoodById(id: string) {
